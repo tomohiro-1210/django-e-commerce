@@ -12,3 +12,5 @@ class IndexListView(ListView):
 class ItemDetailView(DetailView):
     model = Item
     template_name = 'pages/item.html'
+    
+    
