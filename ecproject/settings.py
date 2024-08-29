@@ -11,21 +11,34 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# envファイルの読み込み
+env = environ.Env()
+root = environ.Path(BASE_DIR / 'secrets')
+
+# 本番環境のenv
+# env.read_env(root('.env.prod'))
+
+# 仮想環境のenv
+env.read_env(root('.env.dev'))
+
+# envファイルからの読み込み処理
+SECRET_KEY = env.str('SECRET_KEY')
+DEBUG = env.bool('DEBUG')
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(lkwap3jh+(e=cxwqqrkkok4a2vw=48l28a$e=^ogut9mhbfzx'
+# SECRET_KEY = 'django-insecure-(lkwap3jh+(e=cxwqqrkkok4a2vw=48l28a$e=^ogut9mhbfzx'
+# DEBUG = True
+# ALLOWED_HOSTS = []
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -117,6 +130,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+# 画像フォルダの保管
+MEDIA_ROOT = BASE_DIR / 'images'
+MEDIA_URL = 'images/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
