@@ -10,7 +10,7 @@ class SignUpView(CreateView):
     form_class = UserCreationForm
     success_url = '/login/'
     template_name = 'pages/login_signup.html'
-    
+ 
     def form_valid(self, form):
         return super().form_valid(form)
     
@@ -39,7 +39,7 @@ class AccountUpdateView(LoginRequiredMixin, UpdateView):
 class  ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = Profile
     template_name = 'pages/profile.html'
-    fields = ('name', 'zipcode', 'preficture', 'city', 'address1', 'address2', 'tel')
+    fields = ('name', 'zipcode', 'prefecture', 'city', 'address1', 'address2', 'tel')
     success_url = '/profile/'
     
     def get_object(self):

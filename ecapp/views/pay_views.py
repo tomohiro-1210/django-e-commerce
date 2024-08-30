@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 # APIキー
 stripe.api_key = settings.STRIPE_API_SECRET_KEY
 
+
 # 決済成功
 class PaySuccessView(LoginRequiredMixin ,TemplateView):
     template_name = 'pages/success.html'
@@ -57,14 +58,33 @@ def create_line_item(unit_amount, name, quantity):
         'quantity': quantity,
         'tax_rates': [tax_rate.id]
     }
+    
+
+def check_profile_filled(profile):
+    if profile.name is None or profile.name == '':
+        return False
+    elif profile.zipcode is None or profile.zipcode == '':
+        return False
+    elif profile.prefecture is None or profile.prefecture == '':
+        return False
+    elif profile.city is None or profile.city == '':
+        return False
+    elif profile.address is None or profile.address1 == '':
+        return False
+    return True
+    
  
 # 決済の処理？？
 class PayWithStripe(LoginRequiredMixin, View):
  
     def post(self, request, *args, **kwargs):
+        # プロフィールが埋まっているか確認
+        if not check_profile_filled(request.user.profile):
+            return 
+        
         cart = request.session.get('cart', None)
         if cart is None or len(cart) == 0:
-            return redirect('/')
+            return redirect('/profile/')
  
         line_items = []
         for item_pk, quantity in cart['items'].items():
