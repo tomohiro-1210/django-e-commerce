@@ -3,12 +3,14 @@ from django.views.generic import View, TemplateView
 from django.conf import settings
 from ecapp.models import Item
 import stripe
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 # APIキー
 stripe.api_key = settings.STRIPE_API_SECRET_KEY
 
 # 決済成功
-class PaySuccessView(TemplateView):
+class PaySuccessView(LoginRequiredMixin ,TemplateView):
     template_name = 'pages/success.html'
     
     def get(self, request, *args, **kwargs):
@@ -20,7 +22,7 @@ class PaySuccessView(TemplateView):
         return super().get(request, *args, **kwargs)
     
 # キャンセル
-class PayCancelView(TemplateView):
+class PayCancelView(LoginRequiredMixin, TemplateView):
     template_name = 'pages\cancel.html'
     
     def get(self, request, *args, **kwargs):
@@ -44,6 +46,7 @@ tax_rate = stripe.TaxRate.create(
 )
  
 # 商品登録？
+@login_required
 def create_line_item(unit_amount, name, quantity):
     return {
         'price_data': {
@@ -56,7 +59,7 @@ def create_line_item(unit_amount, name, quantity):
     }
  
 # 決済の処理？？
-class PayWithStripe(View):
+class PayWithStripe(LoginRequiredMixin, View):
  
     def post(self, request, *args, **kwargs):
         cart = request.session.get('cart', None)

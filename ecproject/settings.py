@@ -147,3 +147,12 @@ TAX_RATE = 0.1
 STRIPE_API_SECRET_KEY = env.str('STRIPE_API_SECRET_KEY')
 
 MY_URL = env.str('MY_URL')
+
+# カスタムユーザーモデル
+AUTH_USER_MODEL = 'ecapp.User'
+
+# ログインやログアウトのリダイレクトURL
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_URL = '/logout/'
+LOGOUT_REDIRECT_URL = '/login/'
