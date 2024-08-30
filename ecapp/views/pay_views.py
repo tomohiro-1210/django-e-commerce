@@ -33,9 +33,29 @@ class PayCancelView(TemplateView):
         
         return super().get(request, *args, **kwargs)
 
-# 
-
-# 
+# 消費税率の計算 
+tax_rate = stripe.TaxRate.create(
+    display_name='消費税',
+    description='消費税',
+    country='JP',
+    jurisdiction='JP',
+    percentage=settings.TAX_RATE * 100,
+    inclusive=False,  # 外税を指定（内税の場合はTrue）
+)
+ 
+# 商品登録？
+def create_line_item(unit_amount, name, quantity):
+    return {
+        'price_data': {
+            'currency': 'JPY',
+            'unit_amount': unit_amount,
+            'product_data': {'name': name, }
+        },
+        'quantity': quantity,
+        'tax_rates': [tax_rate.id]
+    }
+ 
+# 決済の処理？？
 class PayWithStripe(View):
  
     def post(self, request, *args, **kwargs):
