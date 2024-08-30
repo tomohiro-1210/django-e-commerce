@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import item_views, cart_views, pay_views, account_views
+from .views import item_views, cart_views, pay_views, account_views, order_views
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -25,5 +25,9 @@ urlpatterns = [
     path('signup/', account_views.SignUpView.as_view()),
     path('account/', account_views.AccountUpdateView.as_view()),
     path('profile/', account_views.ProfileUpdateView.as_view()),
+    
+    # 注文履歴
+    path('orders/', order_views.OrderIndexView.as_view()),
+    path('orders/<str:pk>/', order_views.OrderDetailView.as_view()),
     
 ]
