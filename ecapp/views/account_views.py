@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from ecapp.models import Profile
 from ecapp.forms import UserCreationForm
+from django.contrib import messages
 
 # ユーザー登録
 class SignUpView(CreateView):
@@ -12,6 +13,7 @@ class SignUpView(CreateView):
     template_name = 'pages/login_signup.html'
  
     def form_valid(self, form):
+        messages.success(self.request, 'アカウントが登録されました。ログインが可能になりました！')
         return super().form_valid(form)
     
 # ユーザー画面
@@ -19,9 +21,11 @@ class Login(LoginView):
     template_name = 'pages/login_signup.html'
     
     def form_valid(self, form):
+        messages.success(self.request, 'ログインが成功しました！')
         return super().form_valid(form)
     
     def form_invalid(self, form):
+        messages.error(self.request, 'パスワードまたはユーザーネームが間違っています。')
         return super().form_invalid(form)
     
 # アカウントプロフィール更新？

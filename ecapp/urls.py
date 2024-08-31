@@ -30,4 +30,8 @@ urlpatterns = [
     path('orders/', order_views.OrderIndexView.as_view()),
     path('orders/<str:pk>/', order_views.OrderDetailView.as_view()),
     
+    # タグやカテゴリーに紐づけされた商品
+    path('categories/<str:pk>/', item_views.CategoryListView.as_view()),
+    path('tags/<str:pk>/', item_views.TagListView.as_view()),
+    
 ]
