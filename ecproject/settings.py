@@ -139,3 +139,11 @@ MEDIA_URL = 'images/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# 税金の計算
+TAX_RATE = 0.1
+
+# stripe　API
+STRIPE_API_SECRET_KEY = env.str('STRIPE_API_SECRET_KEY')
+
+MY_URL = env.str('MY_URL')
